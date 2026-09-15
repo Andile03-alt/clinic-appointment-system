@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinic Appointment & Patient Records System - Eswatini</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">🏥</span>
+                <span class="logo-text">ClinicCare Eswatini</span>
+            </div>
+            <div class="nav-menu">
+                <button class="nav-btn" onclick="navigateTo('home')">Home</button>
+                <button class="nav-btn" onclick="navigateTo('patient')">Patient Portal</button>
+                <button class="nav-btn" onclick="navigateTo('staff')">Staff Dashboard</button>
+                <button class="nav-btn" onclick="navigateTo('admin')">Admin Panel</button>
+                <button class="nav-btn" onclick="navigateTo('analytics')">Analytics</button>
+                <div class="nav-controls">
+                    <select id="languageSelect" onchange="changeLanguage(this.value)" class="language-select">
+                        <option value="en">English</option>
+                        <option value="ss">SiSwati</option>
+                    </select>
+                    <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <!-- Home Page -->
+        <section id="home" class="page active">
+            <div class="hero">
+                <div class="hero-content">
+                    <h1>Welcome to ClinicCare Eswatini</h1>
+                    <p>Your comprehensive clinic management solution for Eswatini</p>
+                </div>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card" onclick="navigateTo('patient')">
+                    <div class="feature-icon">👨‍⚕️</div>
+                    <h3>Patient Portal</h3>
+                    <p>Book appointments, view records, manage your health information</p>
+                </div>
+                <div class="feature-card" onclick="navigateTo('staff')">
+                    <div class="feature-icon">👩‍💼</div>
+                    <h3>Staff Dashboard</h3>
+                    <p>Manage schedules, patient consultations, and medical records</p>
+                </div>
+                <div class="feature-card" onclick="navigateTo('admin')">
+                    <div class="feature-icon">⚙️</div>
+                    <h3>Admin Panel</h3>
+                    <p>Configure clinic settings, manage staff, view system overview</p>
+                </div>
+                <div class="feature-card" onclick="navigateTo('analytics')">
+                    <div class="feature-icon">📊</div>
+                    <h3>Analytics Dashboard</h3>
+                    <p>Track clinic performance and patient statistics</p>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <h2>About ClinicCare</h2>
+                <p>ClinicCare is a modern, user-friendly clinic management system designed specifically for healthcare facilities in Eswatini. Our system helps clinics streamline operations, improve patient care, and maintain accurate medical records.</p>
+                <div class="stats-grid">
+                    <div class="stat">
+                        <div class="stat-number" id="patientCount">0</div>
+                        <div class="stat-label">Registered Patients</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number" id="appointmentCount">0</div>
+                        <div class="stat-label">Total Appointments</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number" id="staffCount">0</div>
+                        <div class="stat-label">Staff Members</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Patient Portal -->
+        <section id="patient" class="page">
+            <div class="page-header">
+                <h1>Patient Portal</h1>
+                <button class="btn-primary" onclick="showModal('newAppointmentModal')">Book Appointment</button>
+            </div>
+
+            <div class="portal-grid">
+                <div class="section-panel">
+                    <h2>My Appointments</h2>
+                    <div id="myAppointments" class="appointments-list">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+
+                <div class="section-panel">
+                    <h2>My Medical Records</h2>
+                    <div id="myRecords" class="records-list">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+
+                <div class="section-panel">
+                    <h2>My Profile</h2>
+                    <div id="patientProfile" class="profile-info">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+
+                <div class="section-panel">
+                    <h2>Available Doctors</h2>
+                    <div id="availableDoctors" class="doctors-list">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Staff Dashboard -->
+        <section id="staff" class="page">
+            <div class="page-header">
+                <h1>Staff Dashboard</h1>
+                <input type="date" id="staffDate" class="date-picker" onchange="updateStaffSchedule()">
+            </div>
+
+            <div class="portal-grid">
+                <div class="section-panel">
+                    <h2>Today's Schedule</h2>
+                    <div id="todaySchedule" class="schedule-list">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+
+                <div class="section-panel">
+                    <h2>Pending Consultations</h2>
+                    <div id="pendingConsultations" class="consultations-list">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+
+                <div class="section-panel">
+                    <h2>Recent Patient Records</h2>
+                    <div id="recentRecords" class="records-list">
+                        <!-- Populated by JavaScript -->
+                    </div>
+                </div>
+
+                <div class="section-panel">
+                    <h2>Quick Actions</h2>
+                    <div class="action-buttons">
+                        <button class="btn-secondary" onclick="showModal('updateRecordModal')">Update Patient Record</button>
+                        <button class="btn-secondary" onclick="showModal('completeConsultationModal')">Complete Consultation</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Admin Panel -->
+        <section id="admin" class="page">
+            <div class="page-header">
+                <h1>Admin Panel</h1>
+            </div>
+
+            <div class="admin-tabs">
+                <button class="tab-btn active" onclick="switchAdminTab('overview')">Overview</button>
+                <button class="tab-btn" onclick="switchAdminTab('staff')">Staff Management</button>
+                <button class="tab-btn" onclick="switchAdminTab('settings')">Settings</button>
+            </div>
+
+            <div id="overviewTab" class="admin-tab-content active">
+                <div class="admin-grid">
+                    <div class="admin-card">
+                        <h3>System Statistics</h3>
+                        <div class="stat-item">
+                            <span>Total Patients:</span>
+                            <span id="adminPatientCount">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Total Appointments:</span>
+                            <span id="adminAppointmentCount">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>Staff Members:</span>
+                            <span id="adminStaffCount">0</span>
+                        </div>
+                    </div>
+
+                    <div class="admin-card">
+                        <h3>Clinic Information</h3>
+                        <div class="clinic-info">
+                            <p><strong>Name:</strong> <span id="clinicName">Central Clinic Mbabane</span></p>
+                            <p><strong>Phone:</strong> <span id="clinicPhone">+268 2404 2000</span></p>
+                            <p><strong>Operating Hours:</strong> <span id="clinicHours">8:00 AM - 5:00 PM</span></p>
+                        </div>
+                    </div>
+
+                    <div class="admin-card">
+                        <h3>Recent Activity</h3>
+                        <div id="recentActivity" class="activity-log">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="staffTab" class="admin-tab-content">
+                <div class="admin-controls">
+                    <button class="btn-primary" onclick="showModal('addStaffModal')">Add Staff Member</button>
+                </div>
+                <div id="staffManagementList" class="staff-management-list">
+                    <!-- Populated by JavaScript -->
+                </div>
+            </div>
+
+            <div id="settingsTab" class="admin-tab-content">
+                <div class="settings-form">
+                    <h3>Clinic Settings</h3>
+                    <div class="form-group">
+                        <label>Clinic Name:</label>
+                        <input type="text" id="settingClinicName" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number:</label>
+                        <input type="tel" id="settingClinicPhone" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label>Operating Hours:</label>
+                        <input type="text" id="settingClinicHours" class="form-input">
+                    </div>
+                    <button class="btn-primary" onclick="saveClinicSettings()">Save Settings</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Analytics Dashboard -->
+        <section id="analytics" class="page">
+            <div class="page-header">
+                <h1>Analytics Dashboard</h1>
+            </div>
+
+            <div class="analytics-grid">
+                <div class="chart-container">
+                    <h3>Appointments by Status</h3>
+                    <canvas id="appointmentStatusChart"></canvas>
+                </div>
+
+                <div class="chart-container">
+                    <h3>Patient Demographics</h3>
+                    <canvas id="patientDemographicsChart"></canvas>
+                </div>
+
+                <div class="chart-container">
+                    <h3>Appointments Trend</h3>
+                    <canvas id="appointmentTrendChart"></canvas>
+                </div>
+
+                <div class="chart-container">
+                    <h3>Staff Workload</h3>
+                    <canvas id="staffWorkloadChart"></canvas>
+                </div>
+
+                <div class="metrics-card">
+                    <h3>Key Metrics</h3>
+                    <div class="metric">
+                        <span>Total Consultations:</span>
+                        <strong id="totalConsultations">0</strong>
+                    </div>
+                    <div class="metric">
+                        <span>Average Wait Time:</span>
+                        <strong id="avgWaitTime">15 mins</strong>
+                    </div>
+                    <div class="metric">
+                        <span>Patient Satisfaction:</span>
+                        <strong id="patientSatisfaction">92%</strong>
+                    </div>
+                    <div class="metric">
+                        <span>No-show Rate:</span>
+                        <strong id="noShowRate">5%</strong>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modals -->
+
+    <!-- New Appointment Modal -->
+    <div id="newAppointmentModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('newAppointmentModal')">&times;</span>
+            <h2>Book an Appointment</h2>
+            <form id="appointmentForm" onsubmit="bookAppointment(event)">
+                <div class="form-group">
+                    <label>Select Doctor:</label>
+                    <select id="appointmentDoctor" class="form-input" required>
+                        <option value="">Choose a doctor...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Preferred Date:</label>
+                    <input type="date" id="appointmentDate" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label>Preferred Time:</label>
+                    <select id="appointmentTime" class="form-input" required>
+                        <option value="">Choose a time...</option>
+                        <option value="08:00">8:00 AM</option>
+                        <option value="09:00">9:00 AM</option>
+                        <option value="10:00">10:00 AM</option>
+                        <option value="11:00">11:00 AM</option>
+                        <option value="14:00">2:00 PM</option>
+                        <option value="15:00">3:00 PM</option>
+                        <option value="16:00">4:00 PM</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Reason for Visit:</label>
+                    <textarea id="appointmentReason" class="form-input" rows="4" required></textarea>
+                </div>
+                <button type="submit" class="btn-primary">Book Appointment</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Staff Modal -->
+    <div id="addStaffModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('addStaffModal')">&times;</span>
+            <h2>Add Staff Member</h2>
+            <form id="staffForm" onsubmit="addStaff(event)">
+                <div class="form-group">
+                    <label>Full Name:</label>
+                    <input type="text" id="staffName" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label>Position:</label>
+                    <select id="staffPosition" class="form-input" required>
+                        <option value="">Choose position...</option>
+                        <option value="Doctor">Doctor</option>
+                        <option value="Nurse">Nurse</option>
+                        <option value="Receptionist">Receptionist</option>
+                        <option value="Pharmacist">Pharmacist</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input type="email" id="staffEmail" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone:</label>
+                    <input type="tel" id="staffPhone" class="form-input" required>
+                </div>
+                <button type="submit" class="btn-primary">Add Staff Member</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Update Record Modal -->
+    <div id="updateRecordModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('updateRecordModal')">&times;</span>
+            <h2>Update Patient Record</h2>
+            <form id="recordForm" onsubmit="updatePatientRecord(event)">
+                <div class="form-group">
+                    <label>Patient ID:</label>
+                    <input type="text" id="recordPatientId" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label>Diagnosis:</label>
+                    <textarea id="recordDiagnosis" class="form-input" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Treatment:</label>
+                    <textarea id="recordTreatment" class="form-input" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Notes:</label>
+                    <textarea id="recordNotes" class="form-input" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn-primary">Update Record</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Complete Consultation Modal -->
+    <div id="completeConsultationModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('completeConsultationModal')">&times;</span>
+            <h2>Complete Consultation</h2>
+            <form id="consultationForm" onsubmit="completeConsultation(event)">
+                <div class="form-group">
+                    <label>Appointment ID:</label>
+                    <input type="text" id="consultationAppointmentId" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label>Status:</label>
+                    <select id="consultationStatus" class="form-input" required>
+                        <option value="completed">Completed</option>
+                        <option value="no-show">No Show</option>
+                        <option value="rescheduled">Rescheduled</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-primary">Complete</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2026 ClinicCare Eswatini. All rights reserved. Designed for healthcare excellence in Eswatini.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/patients.js"></script>
+    <script src="js/appointments.js"></script>
+    <script src="js/staff.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
